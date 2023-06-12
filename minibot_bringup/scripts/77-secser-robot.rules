@@ -1,0 +1,4 @@
+# STM32
+KERNEL=="ttyUSB[0-9]*", MODE="0666", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="7523", SYMLINK+="ttySTM32"
+# ydlidar_x2
+KERNEL=="ttyUSB[0-9]*", MODE="0666", ATTRS{idVendor}=="10c4", ATTRS{idProduct}=="ea60", SYMLINK+="ttyLidar"
