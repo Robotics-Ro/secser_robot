@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>secser_base</name>
+  <version>0.0.0</version>
+  <description>2nd Generation Serving Robot Base Package</description>
+  <maintainer email="jimenojmm@gmail.com">Juan Miguel Jimeno</maintainer>
+  <maintainer email="thro@konkuk.ac.kr">Tae Hyung Ro</maintainer>
+  <license>Apache 2.0</license>
+  <url type="website">linorobot.org</url>
+  <url type="repository">https://github.com/linorobot/linorobot2</url>
+  <url type="bugtracker">https://github.com/linorobot/linorobot2/issues</url>
+  <url type="repository">https://github.com/Robotics-Ro/secser_robot</url>
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
