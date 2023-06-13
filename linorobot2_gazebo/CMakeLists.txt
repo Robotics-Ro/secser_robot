@@ -7,7 +7,7 @@ find_package(rclpy REQUIRED)
 ament_python_install_package(scripts)
 
 install(
-  DIRECTORY launch rviz worlds
+  DIRECTORY models launch rviz worlds
   DESTINATION share/${PROJECT_NAME}
 )
 

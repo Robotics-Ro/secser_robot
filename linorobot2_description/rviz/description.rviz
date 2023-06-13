@@ -5,7 +5,7 @@ Panels:
     Property Tree Widget:
       Expanded: ~
       Splitter Ratio: 0.5
-    Tree Height: 907
+    Tree Height: 814
 Visualization Manager:
   Class: ""
   Displays:
@@ -54,6 +54,10 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        camera_depth_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
         camera_link:
           Alpha: 1
           Show Axes: false
@@ -88,6 +92,9 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+      Mass Properties:
+        Inertia: false
+        Mass: false
       Name: RobotModel
       TF Prefix: ""
       Update Interval: 0
@@ -101,6 +108,8 @@ Visualization Manager:
         base_footprint:
           Value: true
         base_link:
+          Value: true
+        camera_depth_link:
           Value: true
         camera_link:
           Value: true
@@ -125,7 +134,8 @@ Visualization Manager:
         base_footprint:
           base_link:
             camera_link:
-              {}
+              camera_depth_link:
+                {}
             front_left_wheel_link:
               {}
             front_right_wheel_link:
@@ -168,33 +178,33 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 0.6006462574005127
+      Distance: 0.8576735854148865
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0
-        Y: 0
-        Z: 0
+        X: 0.0218382328748703
+        Y: -0.10681528598070145
+        Z: 0.11416411399841309
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.4653983414173126
+      Pitch: 0.17539894580841064
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 0.7553982138633728
+      Yaw: 1.2453978061676025
     Saved: ~
 Window Geometry:
   Displays:
     collapsed: false
-  Height: 1136
+  Height: 1043
   Hide Left Dock: false
   Hide Right Dock: false
-  QMainWindow State: 000000ff00000000fd00000001000000000000015600000416fc0200000001fb000000100044006900730070006c006100790073010000003d00000416000000c900ffffff000005f40000041600000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
-  Width: 1872
-  X: 48
-  Y: 27
+  QMainWindow State: 000000ff00000000fd000000010000000000000156000003b9fc0200000001fb000000100044006900730070006c006100790073010000003d000003b9000000c900ffffff00000624000003b900000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  Width: 1920
+  X: 0
+  Y: 0

@@ -16,14 +16,14 @@ def generate_launch_description():
     lidar_model = DeclareLaunchArgument("lidar_model", default_value="hokuyo")
     lidar_port_name = DeclareLaunchArgument("lidar_port_name", default_value="/dev/ttyLidar")
     lidar_baudrate = DeclareLaunchArgument("lidar_baudrate", default_value="57600")
-    robot_port_name = DeclareLaunchArgument("robot_port_name", default_value="/dev/ttyArduino")
+    robot_port_name = DeclareLaunchArgument("robot_port_name", default_value="/dev/ttySTM32")
     robot_baudrate = DeclareLaunchArgument("robot_baudrate", default_value="500000")
 
     robot_description_content = Command([
         'xacro ',
         PathJoinSubstitution([
-            FindPackageShare('minibot_description'),
-            'urdf/robot.urdf.xacro',
+            FindPackageShare('linobot2_description'),
+            'urdf/robot/mecanum.urdf.xacro',
         ]),
         ' is_sim:=', 'false',
         ' lidar_model:=', LaunchConfiguration('lidar_model'),

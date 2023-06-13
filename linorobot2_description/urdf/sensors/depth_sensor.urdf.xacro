@@ -3,7 +3,7 @@
   <xacro:macro name="depth_sensor" params="*origin">
     <link name="camera_link">
       <visual>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <origin xyz="-0.02 0 0.02" rpy="0 0 0"/>
         <geometry>
           <box size="0.030 0.124 0.030"/>
           <!-- <mesh filename="" scale="0.001 0.001 0.001"/> -->
