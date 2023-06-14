@@ -19,7 +19,7 @@
    <xacro:property name="prefix" value="$(arg prefix)"/>
 
    <!-- insert robot base -->
-    <xacro:insert_robot prefix="$(arg prefix)"/>
+    
     <xacro:insert_ros2_control_mecanum prefix="$(arg prefix)" is_sim="$(arg is_sim)" robot_port_name="$(arg robot_port_name)" robot_baudrate="$(arg robot_baudrate)"/>
     <xacro:if value="$(arg is_sim)">
         <xacro:insert_gazebo prefix="$(arg prefix)"/>
