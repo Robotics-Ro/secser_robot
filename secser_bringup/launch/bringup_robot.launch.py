@@ -35,7 +35,7 @@ def generate_launch_description():
     robot_description = {"robot_description": robot_description_content}
 
     robot_controllers = PathJoinSubstitution([
-            FindPackageShare('minibot_bringup'),
+            FindPackageShare('secser_bringup'),
             "config",
             "minibot_controllers.yaml"
         ]

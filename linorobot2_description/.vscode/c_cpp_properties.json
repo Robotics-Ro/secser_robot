@@ -1,0 +1,25 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "${default}",
+        "limitSymbolsToIncludedHeaders": false
+      },
+      "includePath": [
+        "/home/thro/dev/robot-repo-1/install/minibot_controllers/include/**",
+        "/home/thro/dev/robot-repo-1/install/minibot_interfaces/include/**",
+        "/home/thro/dev/robot-repo-1/install/minibot_hardware_interface/include/**",
+        "/opt/ros/humble/include/**",
+        "/home/thro/dev/robot-repo-1/src/secser_robot/minibot_controllers/include/**",
+        "/home/thro/dev/robot-repo-1/src/secser_robot/minibot_hardware_interface/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS",
+      "intelliSenseMode": "gcc-x64",
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "gnu11",
+      "cppStandard": "c++14"
+    }
+  ],
+  "version": 4
+}

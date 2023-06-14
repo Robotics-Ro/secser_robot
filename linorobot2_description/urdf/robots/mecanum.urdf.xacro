@@ -8,6 +8,7 @@
   <xacro:include filename="$(find linorobot2_description)/urdf/sensors/generic_laser.urdf.xacro" />
   <xacro:include filename="$(find linorobot2_description)/urdf/sensors/depth_sensor.urdf.xacro" />
   <xacro:include filename="$(find linorobot2_description)/urdf/controllers/omni_drive.urdf.xacro" />
+  <xacro:include filename="$(find linorobot2_description)/urdf/controllers/mecanum_ros2_control.urdf.xacro" />
 
 
    <xacro:arg name="prefix" default=""/>
@@ -17,13 +18,13 @@
 
    <xacro:property name="prefix" value="$(arg prefix)"/>
 
-  <!-- insert robot base
+   <!-- insert robot base -->
     <xacro:insert_robot prefix="$(arg prefix)"/>
-    <xacro:insert_ros2_control prefix="$(arg prefix)" is_sim="$(arg is_sim)" robot_port_name="$(arg robot_port_name)" robot_baudrate="$(arg robot_baudrate)"/>
-  -->
-    <!-- <xacro:if value="$(arg is_sim)">
-        <xacro:insert_gazebo prefix="$(arg prefix)"/> Only GAZEBO
-    </xacro:if> -->
+    <xacro:insert_ros2_control_mecanum prefix="$(arg prefix)" is_sim="$(arg is_sim)" robot_port_name="$(arg robot_port_name)" robot_baudrate="$(arg robot_baudrate)"/>
+    <xacro:if value="$(arg is_sim)">
+        <xacro:insert_gazebo prefix="$(arg prefix)"/>
+    </xacro:if>
+
 
   <xacro:base 
     length="${base_length}" 
