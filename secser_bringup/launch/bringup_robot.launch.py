@@ -22,7 +22,7 @@ def generate_launch_description():
     robot_description_content = Command([
         'xacro ',
         PathJoinSubstitution([
-            FindPackageShare('linobot2_description'),
+            FindPackageShare('linorobot2_description'),
             'urdf/robot/mecanum.urdf.xacro',
         ]),
         ' is_sim:=', 'false',
@@ -88,7 +88,7 @@ def generate_launch_description():
     parameter_file = LaunchConfiguration('params_file')
     ydlidar_params_declare = DeclareLaunchArgument('params_file',
                                            default_value=os.path.join(
-                                               get_package_share_directory('minibot_bringup'), 'config', 'ydlidar.yaml'),
+                                               get_package_share_directory('secser_bringup'), 'config', 'ydlidar.yaml'),
                                            description='FPath to the ROS2 parameters file to use.')
     ydlidar_driver_node = LifecycleNode(package='ydlidar_ros2_driver',
                                 executable='ydlidar_ros2_driver_node',
