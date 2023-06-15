@@ -12,9 +12,9 @@
   <xacro:property name="wheel_pos_z" value="-0.04788" />
   <xacro:property name="wheel_mass" value=".6" />
   <xacro:property name="wheel_torque" value="20" />
-  <xacro:property name="is_sim" value="false"/>
-  <!-- <xacro:property name="robot_port_name" value="/dev/ttySTM32"/> -->
-  <!-- <xacro:property name="robot_baudrate" value="500000"/> -->
+  <xacro:arg name="is_sim" default="false"/>
+  <xacro:arg name="robot_port_name" default="/dev/ttySTM32"/>
+  <xacro:arg name="robot_baudrate" default="500000"/>
 
   <xacro:property name="laser_pose">
     <origin xyz="-0.0475 0 0.125" rpy="0 0 0"/>
