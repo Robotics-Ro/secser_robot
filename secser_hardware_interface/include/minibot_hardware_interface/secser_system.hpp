@@ -1,5 +1,5 @@
-#ifndef MINIBOT_HARDWARE_INTERFACE__MINIBOT_SYHSTEM_HPP_
-#define MINIBOT_HARDWARE_INTERFACE__MINIBOT_SYHSTEM_HPP_
+#ifndef SECSER_HARDWARE_INTERFACE__SECSER_SYHSTEM_HPP_
+#define SECSER_HARDWARE_INTERFACE__SECSER_SYHSTEM_HPP_
 
 #include <memory>
 #include <string>
@@ -21,12 +21,12 @@
 #include <fcntl.h>
 #include <libserial/SerialPort.h>
 
-namespace minibot_hardware
+namespace secser_hardware
 {
-class MinibotSystemHardware : public hardware_interface::SystemInterface
+class SecserSystemHardware : public hardware_interface::SystemInterface
 {
     public:
-        RCLCPP_SHARED_PTR_DEFINITIONS(MinibotSystemHardware)
+        RCLCPP_SHARED_PTR_DEFINITIONS(SecserSystemHardware)
 
         HARDWARE_INTERFACE_PUBLIC
         hardware_interface::CallbackReturn on_init(const hardware_interface::HardwareInfo & info) override;
@@ -75,6 +75,6 @@ class MinibotSystemHardware : public hardware_interface::SystemInterface
         double range_sensor_state_;
 };
 
-} // namespace minibot_hardware
+} // namespace secser_hardware
 
-#endif //MINIBOT_HARDWARE_INTERFACE__MINIBOT_SYHSTEM_HPP_
+#endif //SECSER_HARDWARE_INTERFACE__SECSER_SYHSTEM_HPP_
