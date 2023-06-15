@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
     "ros.distro": "humble",
     "files.associations": {
         "cctype": "cpp",
@@ -81,4 +82,7 @@
         "/opt/ros/humble/lib/python3.10/site-packages",
         "/opt/ros/humble/local/lib/python3.10/dist-packages"
     ]
+=======
+    "ros.distro": "humble"
+>>>>>>> c09c623e6cb6bb420de02d3770425ed07ca8aebe
 }

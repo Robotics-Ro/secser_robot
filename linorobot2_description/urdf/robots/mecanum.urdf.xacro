@@ -11,9 +11,11 @@
   <xacro:include filename="$(find linorobot2_description)/urdf/controllers/mecanum_ros2_control.urdf.xacro"/>
 
 
+
    <!-- insert robot base -->
     <!-- <xacro:property name="prefix" value=""/> -->
     <xacro:insert_ros2_control_mecanum is_sim="${is_sim}" robot_port_name="${robot_port_name}" robot_baudrate="${robot_baudrate}"/>
+
     <!-- <xacro:if value="$(arg is_sim)">
         <xacro:insert_gazebo prefix="$(arg prefix)"/>
     </xacro:if>  -->
