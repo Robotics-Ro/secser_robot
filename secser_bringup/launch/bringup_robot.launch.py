@@ -22,7 +22,7 @@ def generate_launch_description():
     robot_description_content = Command([
         'xacro ',
         PathJoinSubstitution([
-            FindPackageShare('linobot2_description'),
+            FindPackageShare('linorobot2_description'),
             'urdf/robot/mecanum.urdf.xacro',
         ]),
         ' is_sim:=', 'false',
@@ -34,8 +34,16 @@ def generate_launch_description():
     ])
     robot_description = {"robot_description": robot_description_content}
 
+    joy_launch_path = PathJoinSubstitution(
+        [FindPackageShare('secser_bringup'), 'launch', 'joy_teleop.launch.py']
+    )
+
+    ekf_config_path = PathJoinSubstitution(
+        [FindPackageShare("secser_base"), "config", "ekf.yaml"]
+    )
+
     robot_controllers = PathJoinSubstitution([
-            FindPackageShare('minibot_bringup'),
+            FindPackageShare('secser_bringup'),
             "config",
             "minibot_controllers.yaml"
         ]
@@ -57,7 +65,7 @@ def generate_launch_description():
 
     upload_robot = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([
-            get_package_share_directory('minibot_description'),
+            get_package_share_directory('linorobot2_description'),
             '/launch/upload_robot.launch.py']
         ),
         launch_arguments = {
@@ -88,7 +96,7 @@ def generate_launch_description():
     parameter_file = LaunchConfiguration('params_file')
     ydlidar_params_declare = DeclareLaunchArgument('params_file',
                                            default_value=os.path.join(
-                                               get_package_share_directory('minibot_bringup'), 'config', 'ydlidar.yaml'),
+                                               get_package_share_directory('secser_bringup'), 'config', 'ydlidar.yaml'),
                                            description='FPath to the ROS2 parameters file to use.')
     ydlidar_driver_node = LifecycleNode(package='ydlidar_ros2_driver',
                                 executable='ydlidar_ros2_driver_node',
@@ -118,6 +126,24 @@ def generate_launch_description():
                 on_exit=[load_minibot_io_controller],
             )
         ),
+        # Odemetry Filtering
+        Node(
+            package='robot_localization',
+            executable='ekf_node',
+            name='ekf_filter_node',
+            output='screen',
+            parameters=[
+                ekf_config_path
+            ],
+            remappings=[("odometry/filtered", "odom")]
+        ),
+
+        DeclareLaunchArgument(
+            name='joy', 
+            default_value='false',
+            description='Use Joystick'
+        ),
+
         prefix,
         lidar_model,
         lidar_port_name,
