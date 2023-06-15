@@ -9,11 +9,7 @@
   <xacro:include filename="$(find linorobot2_description)/urdf/sensors/depth_sensor.urdf.xacro" />
   <xacro:include filename="$(find linorobot2_description)/urdf/controllers/omni_drive.urdf.xacro" />
   <xacro:include filename="$(find linorobot2_description)/urdf/controllers/mecanum_ros2_control.urdf.xacro"/>
-
- 
-  <xacro:property name="is_sim" default="false"/>
-  <xacro:property name="robot_port_name" default="/dev/ttySTM32"/>
-  <xacro:property name="robot_baudrate" default="500000"/>
+  
 
    <!-- insert robot base -->
     <!-- <xacro:property name="prefix" value=""/> -->
