@@ -12,7 +12,7 @@ from launch.conditions import LaunchConfigurationEquals
 import os
 
 def generate_launch_description():
-    # prefix = DeclareLaunchArgument("prefix", default_value="")
+    prefix = DeclareLaunchArgument("prefix", default_value="")
     lidar_model = DeclareLaunchArgument("lidar_model", default_value="hokuyo")
     lidar_port_name = DeclareLaunchArgument("lidar_port_name", default_value="/dev/ttyLidar")
     lidar_baudrate = DeclareLaunchArgument("lidar_baudrate", default_value="57600")
@@ -144,7 +144,7 @@ def generate_launch_description():
             description='Use Joystick'
         ),
 
-        # prefix,
+        prefix,
         lidar_model,
         lidar_port_name,
         lidar_baudrate,
