@@ -20,7 +20,7 @@ def generate_launch_description():
     robot_baudrate = DeclareLaunchArgument("robot_baudrate", default_value="500000")
 
     robot_description_content = Command([
-        'xacro ',
+        'xacro',
         PathJoinSubstitution([
             FindPackageShare('linorobot2_description'),
             'urdf/robot/mecanum.urdf.xacro',

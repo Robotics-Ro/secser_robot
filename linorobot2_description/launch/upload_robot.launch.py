@@ -12,7 +12,7 @@ def generate_launch_description():
     ld = LaunchDescription()
 
     is_sim = DeclareLaunchArgument("is_sim", default_value="false")
-    # prefix = DeclareLaunchArgument("prefix", default_value="")
+    prefix = DeclareLaunchArgument("prefix", default_value="")
 
     rsp_node = Node(
         package='robot_state_publisher',
@@ -37,7 +37,7 @@ def generate_launch_description():
     )
 
     ld.add_action(is_sim)
-    # ld.add_action(prefix)
+    ld.add_action(prefix)
     ld.add_action(rsp_node)
 
     return ld
