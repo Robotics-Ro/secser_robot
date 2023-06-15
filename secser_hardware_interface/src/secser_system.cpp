@@ -10,7 +10,7 @@
 #include "hardware_interface/types/hardware_interface_type_values.hpp"
 #include "rclcpp/rclcpp.hpp"
 
-namespace secser_hardware
+namespace Secser_hardware
 {
     hardware_interface::CallbackReturn SecserSystemHardware::on_init(const hardware_interface::HardwareInfo & info)
     {
