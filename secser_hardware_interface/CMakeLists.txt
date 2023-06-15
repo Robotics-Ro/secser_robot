@@ -26,7 +26,7 @@ pkg_check_modules(SERIAL libserial)
 add_library(
   ${PROJECT_NAME}
   SHARED
-  src/minibot_system.cpp
+  src/secser_system.cpp
 )
 
 target_include_directories(
@@ -51,7 +51,7 @@ ament_target_dependencies(
 )
 
 # Export hardware plugins
-pluginlib_export_plugin_description_file(hardware_interface minibot_hardware.xml)
+pluginlib_export_plugin_description_file(hardware_interface secser_hardware.xml)
 
 # INSTALL
 install(
