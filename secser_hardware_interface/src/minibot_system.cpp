@@ -290,7 +290,7 @@ namespace minibot_hardware
 
     void MinibotSystemHardware::send_cmd_to_controller(int16_t f_l_vel, int16_t f_r_vel, int16_t r_l_vel, int16_t r_r_vel)
     {
-        std::vector<uint8_t> send_buf {0xfa, 0xfe, 0x2, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x9, 0x0, 0xfa, 0xfd};
+        std::vector<uint8_t> send_buf {0xfa, 0xfe, 0x2, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0xa, 0x0, 0xfa, 0xfd};
 
         send_buf[3] = (uint8_t)(f_l_vel >> 8);
         send_buf[4] = (uint8_t)(f_l_vel);
@@ -302,11 +302,11 @@ namespace minibot_hardware
         send_buf[10] = (uint8_t)(r_r_vel);
 
         uint16_t sum = 0;
-        for(int i = 0; i < 10; i++)
+        for(int i = 0; i < 11; i++)
         {
             sum += send_buf[2 + i];
         }
-        send_buf[12] = (uint8_t)sum;
+        send_buf[13] = (uint8_t)sum;
 
         ser_.Write(send_buf);
         ser_.DrainWriteBuffer();
@@ -319,10 +319,10 @@ namespace minibot_hardware
         ser_.Write(send_buf);
         ser_.DrainWriteBuffer();
 
-        std::vector<uint8_t> recv_buf(20, 0);
+        std::vector<uint8_t> recv_buf(23, 0);
         try
         {
-            ser_.Read(recv_buf, 20, 100);
+            ser_.Read(recv_buf, 23, 100);
             if(recv_buf[2] != 0x93)
             {
                 RCLCPP_ERROR(rclcpp::get_logger("MinibotSystemHardware"), "Failed to enable motors... check the boards...");
@@ -336,10 +336,10 @@ namespace minibot_hardware
         }
 
         // enabled = recv_buf[3];
-        f_l_pos_enc = (int32_t)((recv_buf[4] << 24) + (recv_buf[5] << 16) + (recv_buf[6] << 8) + (recv_buf[7]));
-        f_r_pos_enc = (int32_t)((recv_buf[8] << 24) + (recv_buf[9] << 16) + (recv_buf[10] << 8) + (recv_buf[11]));
-        r_l_pos_enc = (int32_t)((recv_buf[12] << 24) + (recv_buf[13] << 16) + (recv_buf[14] << 8) + (recv_buf[15]));
-        r_r_pos_enc = (int32_t)((recv_buf[16] << 24) + (recv_buf[17] << 16) + (recv_buf[18] << 8) + (recv_buf[19]));
+        f_l_pos_enc = (int32_t)((recv_buf[3] << 24) + (recv_buf[4] << 16) + (recv_buf[5] << 8) + (recv_buf[6]));
+        f_r_pos_enc = (int32_t)((recv_buf[7] << 24) + (recv_buf[8] << 16) + (recv_buf[9] << 8) + (recv_buf[10]));
+        r_l_pos_enc = (int32_t)((recv_buf[11] << 24) + (recv_buf[12] << 16) + (recv_buf[13] << 8) + (recv_buf[14]));
+        r_r_pos_enc = (int32_t)((recv_buf[15] << 24) + (recv_buf[16] << 16) + (recv_buf[17] << 8) + (recv_buf[18]));
         
     }
 
