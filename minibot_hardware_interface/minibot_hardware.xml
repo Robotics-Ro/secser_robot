@@ -1,4 +1,4 @@
-<library path="secser_hardware_interface">
+<library path="minibot_hardware_interface">
     <class name="minibot_hardware/MinibotSystemHardware"
             type="minibot_hardware::MinibotSystemHardware"
             base_class_type="hardware_interface::SystemInterface">
