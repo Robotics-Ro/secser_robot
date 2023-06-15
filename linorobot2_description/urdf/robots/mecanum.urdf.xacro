@@ -14,7 +14,7 @@
 
    <!-- insert robot base -->
     <!-- <xacro:property name="prefix" value=""/> -->
-    <xacro:insert_ros2_control_mecanum is_sim="${is_sim}" robot_port_name="${robot_port_name}" robot_baudrate="${robot_baudrate}"/>
+    <xacro:insert_ros2_control_mecanum is_sim="false" robot_port_name="/dev/ttySTM32" robot_baudrate="500000"/>
 
     <!-- <xacro:if value="$(arg is_sim)">
         <xacro:insert_gazebo prefix="$(arg prefix)"/>
