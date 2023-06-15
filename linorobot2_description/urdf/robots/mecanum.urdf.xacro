@@ -8,23 +8,19 @@
   <xacro:include filename="$(find linorobot2_description)/urdf/sensors/generic_laser.urdf.xacro" />
   <xacro:include filename="$(find linorobot2_description)/urdf/sensors/depth_sensor.urdf.xacro" />
   <xacro:include filename="$(find linorobot2_description)/urdf/controllers/omni_drive.urdf.xacro" />
-  <xacro:include filename="$(find linorobot2_description)/urdf/controllers/mecanum_ros2_control.urdf.xacro" />
+  <xacro:include filename="$(find linorobot2_description)/urdf/controllers/mecanum_ros2_control.urdf.xacro"/>
 
-
-   <xacro:arg name="prefix" default=""/>
-   <xacro:arg name="is_sim" default="false"/>
-   <xacro:arg name="robot_port_name" default="/dev/ttySTM32"/>
-   <xacro:arg name="robot_baudrate" default="500000"/>
-
-   <xacro:property name="prefix" value="$(arg prefix)"/>
+ 
+  <xacro:property name="is_sim" default="false"/>
+  <xacro:property name="robot_port_name" default="/dev/ttySTM32"/>
+  <xacro:property name="robot_baudrate" default="500000"/>
 
    <!-- insert robot base -->
-    
-    <xacro:insert_ros2_control_mecanum prefix="$(arg prefix)" is_sim="$(arg is_sim)" robot_port_name="$(arg robot_port_name)" robot_baudrate="$(arg robot_baudrate)"/>
-    <xacro:if value="$(arg is_sim)">
+    <!-- <xacro:property name="prefix" value=""/> -->
+    <xacro:insert_ros2_control_mecanum is_sim="$(arg is_sim)" robot_port_name="$(arg robot_port_name)" robot_baudrate="$(arg robot_baudrate)"/>
+    <!-- <xacro:if value="$(arg is_sim)">
         <xacro:insert_gazebo prefix="$(arg prefix)"/>
-    </xacro:if>
-
+    </xacro:if>  -->
 
   <xacro:base 
     length="${base_length}" 
@@ -83,6 +79,9 @@
   <xacro:depth_sensor>
     <xacro:insert_block name="depth_sensor_pose" />
   </xacro:depth_sensor>
+
+  
+   <!-- <xacro:insert_ros2_control_mecanum prefix="$(arg prefix)" is_sim="$(arg is_sim)" robot_port_name="$(arg robot_port_name)" robot_baudrate="$(arg robot_baudrate)"/> -->
 
   <xacro:omni_drive_controller/>
 </robot>

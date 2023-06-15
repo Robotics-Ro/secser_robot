@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
   <xacro:macro name="mecanum_wheel" params="side radius width pos_x pos_y pos_z mass">
+    <!-- 20230615 update macanumwheel_system-->
+    <!--          port, baudrate update-->
     <link name="${side}_wheel_link">
       <visual>
         <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
@@ -47,6 +49,13 @@
       <parent link="base_link"/>
       <child link="${side}_wheel_link"/>
       <origin xyz="${pos_x} ${pos_y} ${pos_z}" rpy="0 0 0"/>
+      <command_interface name="velocity">
+        <param name="min">-1.0</param>
+        <param name="max">1.0</param>
+      </command_interface>
+      
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
     </joint>
   </xacro:macro>
 </robot>
