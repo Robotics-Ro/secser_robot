@@ -31,6 +31,13 @@ class MinibotSystemHardware : public hardware_interface::SystemInterface
         HARDWARE_INTERFACE_PUBLIC
         hardware_interface::CallbackReturn on_init(const hardware_interface::HardwareInfo & info) override;
 
+        //on_configure;
+        //on_cleanup;
+        //on_activate;
+        //on_deactivate;
+        //on_shutdown;
+        //on_error;
+
         HARDWARE_INTERFACE_PUBLIC
         std::vector<hardware_interface::StateInterface> export_state_interfaces() override;
 
@@ -58,6 +65,11 @@ class MinibotSystemHardware : public hardware_interface::SystemInterface
         std::vector<double> hw_commands_;
         std::vector<double> hw_positions_;
         std::vector<double> hw_velocities_;
+
+
+        // plus status
+        // std::vector<double> position_states_;
+        // std::vector<double> velocity_states_;
 
         int32_t f_l_last_enc_;
         int32_t f_r_last_enc_;

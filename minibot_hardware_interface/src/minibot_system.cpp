@@ -104,7 +104,7 @@ namespace minibot_hardware
         ser_.FlushIOBuffers();
         rclcpp::sleep_for(std::chrono::milliseconds(1000));
 
-        assert(enable_motors());
+        //assert(enable_motors());
         enable_motor_cmd_ = 1.0;
 
         RCLCPP_INFO(rclcpp::get_logger("MinibotSystemHardware"), "Successfully initialized!");
@@ -262,18 +262,18 @@ namespace minibot_hardware
 
     bool MinibotSystemHardware::enable_motors()
     {
-        std::vector<uint8_t> send_buf {0xfa, 0xfe, 0x01, 0, 0x1, 0x3, 0, 0xfa, 0xfd};
+        std::vector<uint8_t> send_buf {0xfa, 0xfe, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 , 10, 0, 0xfa, 0xfd};
 
         // send_buf[3] = enable ? 1 : 0;
-        send_buf[5] = send_buf[2] + send_buf[3] + send_buf[4];
+        send_buf[13] = send_buf[2] + send_buf[3] + send_buf[4] + send_buf[5] + send_buf[6] + send_buf[7] + send_buf[8] + send_buf[9] + send_buf[10];
 
         ser_.Write(send_buf);
         ser_.DrainWriteBuffer();
 
-        std::vector<uint8_t> recv_buf(9, 0);
+        std::vector<uint8_t> recv_buf(16, 0);
         try
         {
-            ser_.Read(recv_buf, 9, 500);
+            ser_.Read(recv_buf, 16, 500);
             if(recv_buf[2] != 0x91)
             {
                 RCLCPP_ERROR(rclcpp::get_logger("MinibotSystemHardware"), "Failed to enable motors... check the boards...");
@@ -322,7 +322,8 @@ namespace minibot_hardware
         std::vector<uint8_t> recv_buf(23, 0);
         try
         {
-            ser_.Read(recv_buf, 23, 100);
+            ser_.Read(recv_buf, 23, 100);11234
+
             if(recv_buf[2] != 0x93)
             {
                 RCLCPP_ERROR(rclcpp::get_logger("MinibotSystemHardware"), "Failed to enable motors... check the boards...");
