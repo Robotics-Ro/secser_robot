@@ -35,9 +35,9 @@ def generate_launch_description():
     robot_description = {"robot_description": robot_description_content}
 
     robot_controllers = PathJoinSubstitution([
-            FindPackageShare('minibot_bringup'),
+            FindPackageShare('minibot_description'),
             "config",
-            "minibot_controllers.yaml"
+            "robot_controller_config.yaml"
         ]
     )
 
@@ -65,18 +65,6 @@ def generate_launch_description():
             'prefix': LaunchConfiguration('prefix'),
             'lidar_model': LaunchConfiguration('lidar_model'),
         }.items()
-    )
-
-    load_joint_state_broadcaster = ExecuteProcess(
-        cmd=['ros2', 'control', 'load_controller', '--set-state', 'active',
-                'joint_state_broadcaster'],
-        output='screen'
-    )
-
-    load_base_controller = ExecuteProcess(
-        cmd=['ros2', 'control', 'load_controller', '--set-state', 'active',
-                'base_controller'],
-        output='screen'
     )
 
     load_minibot_io_controller = ExecuteProcess(

@@ -117,13 +117,21 @@ namespace minibot_hardware
 
         for (auto i = 0u; i < info_.joints.size(); i++)
         {
+             RCLCPP_INFO(rclcpp::get_logger("MinibotSystemHardware"), "Adding position state interface: %s", info_.joints[i].name.c_str());
             state_interfaces.emplace_back(
                 hardware_interface::StateInterface(info_.joints[i].name, hardware_interface::HW_IF_POSITION, &hw_positions_[i]));
+        }
+
+
+        for (auto i = 0u; i < info_.joints.size(); i++)
+        {
+            RCLCPP_INFO(rclcpp::get_logger("MinibotSystemHardware"), "Adding velocity state interface: %s", info_.joints[i].name.c_str());
+    
             state_interfaces.emplace_back(
                 hardware_interface::StateInterface(info_.joints[i].name, hardware_interface::HW_IF_VELOCITY, &hw_velocities_[i]));
         }
 
-        // state_interfaces.emplace_back(hardware_interface::StateInterface("gpio", "motor_enabled", &enable_motor_state_));
+        state_interfaces.emplace_back(hardware_interface::StateInterface("gpio", "motor_enabled", &enable_motor_state_));
         state_interfaces.emplace_back(hardware_interface::StateInterface("gpio", "l_lamp_state", &l_lamp_state_));
         state_interfaces.emplace_back(hardware_interface::StateInterface("gpio", "r_lamp_state", &r_lamp_state_));
         state_interfaces.emplace_back(hardware_interface::StateInterface("gpio", "range_sensor_state", &range_sensor_state_));
@@ -138,11 +146,12 @@ namespace minibot_hardware
 
         for (auto i = 0u; i < info_.joints.size(); i++)
         {
+            RCLCPP_INFO(rclcpp::get_logger("MinibotSystemHardware"), "Adding velocity command interface: %s", info_.joints[i].name.c_str());
             command_interfaces.emplace_back(
                 hardware_interface::CommandInterface(info_.joints[i].name, hardware_interface::HW_IF_VELOCITY, &hw_commands_[i]));
         }
 
-        // command_interfaces.emplace_back(hardware_interface::CommandInterface("gpio", "set_enable_motor", &enable_motor_cmd_));
+        command_interfaces.emplace_back(hardware_interface::CommandInterface("gpio", "set_enable_motor", &enable_motor_cmd_));
         command_interfaces.emplace_back(hardware_interface::CommandInterface("gpio", "set_l_lamp_command", &l_lamp_cmd_));
         command_interfaces.emplace_back(hardware_interface::CommandInterface("gpio", "set_r_lamp_command", &r_lamp_cmd_));
 
@@ -154,13 +163,19 @@ namespace minibot_hardware
     {
         RCLCPP_INFO(rclcpp::get_logger("MinibotSystemHardware"), "Minibot hardware is activating ...please wait...");
 
-        for (auto i = 0u; i < hw_positions_.size(); i++)
+        for (auto i = 0u; i < info_.joints.size(); i++)
         {
             if (std::isnan(hw_positions_[i]))
             {
-                hw_positions_[i] = 0;
-                hw_velocities_[i] = 0;
-                hw_commands_[i] = 0;
+                hw_positions_[i] = 0.0f;
+            }
+            if (std::isnan(hw_velocities_[i]))
+            {
+                hw_velocities_[i] = 0.0f;
+            }
+            if (std::isnan(hw_commands_[i]))
+            {
+                hw_commands_[i] = 0.0f;
             }
         }
 
@@ -311,6 +326,7 @@ namespace minibot_hardware
         ser_.Write(send_buf);
         ser_.DrainWriteBuffer();
     }
+    
 
     void MinibotSystemHardware::request_controller_state(int32_t &f_l_pos_enc, int32_t &f_r_pos_enc, int32_t &r_l_pos_enc, int32_t &r_r_pos_enc)
     {
