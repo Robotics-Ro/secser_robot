@@ -1,5 +1,5 @@
-#ifndef SECSER_HARDWARE_INTERFACE__SECSER_SYHSTEM_HPP_
-#define SECSER_HARDWARE_INTERFACE__SECSER_SYHSTEM_HPP_
+#ifndef MINIBOT_HARDWARE_INTERFACE__MINIBOT_SYHSTEM_HPP_
+#define MINIBOT_HARDWARE_INTERFACE__MINIBOT_SYHSTEM_HPP_
 
 #include <memory>
 #include <string>
@@ -21,15 +21,22 @@
 #include <fcntl.h>
 #include <libserial/SerialPort.h>
 
-namespace secser_hardware
+namespace minibot_hardware
 {
-class SecserSystemHardware : public hardware_interface::SystemInterface
+class MinibotSystemHardware : public hardware_interface::SystemInterface
 {
     public:
-        RCLCPP_SHARED_PTR_DEFINITIONS(SecserSystemHardware)
+        RCLCPP_SHARED_PTR_DEFINITIONS(MinibotSystemHardware)
 
         HARDWARE_INTERFACE_PUBLIC
         hardware_interface::CallbackReturn on_init(const hardware_interface::HardwareInfo & info) override;
+
+        //on_configure;
+        //on_cleanup;
+        //on_activate;
+        //on_deactivate;
+        //on_shutdown;
+        //on_error;
 
         HARDWARE_INTERFACE_PUBLIC
         std::vector<hardware_interface::StateInterface> export_state_interfaces() override;
@@ -59,6 +66,11 @@ class SecserSystemHardware : public hardware_interface::SystemInterface
         std::vector<double> hw_positions_;
         std::vector<double> hw_velocities_;
 
+
+        // plus status
+        // std::vector<double> position_states_;
+        // std::vector<double> velocity_states_;
+
         int32_t f_l_last_enc_;
         int32_t f_r_last_enc_;
         int32_t r_l_last_enc_;
@@ -75,6 +87,6 @@ class SecserSystemHardware : public hardware_interface::SystemInterface
         double range_sensor_state_;
 };
 
-} // namespace secser_hardware
+} // namespace minibot_hardware
 
-#endif //SECSER_HARDWARE_INTERFACE__SECSER_SYHSTEM_HPP_
+#endif //MINIBOT_HARDWARE_INTERFACE__MINIBOT_SYHSTEM_HPP_

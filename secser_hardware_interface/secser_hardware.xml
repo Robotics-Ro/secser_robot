@@ -1,9 +1,0 @@
-<library path="secser_hardware_interface">
-    <class name="secser_hardware/SecserSystemHardware"
-            type="secser_hardware::SecserSystemHardware"
-            base_class_type="secser_interface::SystemInterface">
-        <description>
-            The hardware_interface for 2nd Generation Serving Robot on ros2_control.
-        </description>
-    </class>
-</library>

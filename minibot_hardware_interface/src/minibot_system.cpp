@@ -1,4 +1,4 @@
-#include "secser_hardware_interface/secser_system.hpp"
+#include "minibot_hardware_interface/minibot_system.hpp"
 
 #include <chrono>
 #include <cmath>
@@ -10,9 +10,13 @@
 #include "hardware_interface/types/hardware_interface_type_values.hpp"
 #include "rclcpp/rclcpp.hpp"
 
+<<<<<<< HEAD:secser_hardware_interface/src/secser_system.cpp
 namespace Secser_hardware
+=======
+namespace minibot_hardware
+>>>>>>> f6e1d0381b1daba642f72080e69063100d362de3:minibot_hardware_interface/src/minibot_system.cpp
 {
-    hardware_interface::CallbackReturn SecserSystemHardware::on_init(const hardware_interface::HardwareInfo & info)
+    hardware_interface::CallbackReturn MinibotSystemHardware::on_init(const hardware_interface::HardwareInfo & info)
     {
         // Get info parameters from URDF
         if(hardware_interface::SystemInterface::on_init(info) != hardware_interface::CallbackReturn::SUCCESS)
@@ -20,8 +24,8 @@ namespace Secser_hardware
             return hardware_interface::CallbackReturn::ERROR;
         }
 
-        RCLCPP_INFO(rclcpp::get_logger("SecserSystemHardware"), "Name: %s", info_.name.c_str());
-        RCLCPP_INFO(rclcpp::get_logger("SecserSystemHardware"), "Number of Joints %zu", info_.joints.size());
+        RCLCPP_INFO(rclcpp::get_logger("MinibotSystemHardware"), "Name: %s", info_.name.c_str());
+        RCLCPP_INFO(rclcpp::get_logger("MinibotSystemHardware"), "Number of Joints %zu", info_.joints.size());
 
         // Initialize hardware_interface
         hw_positions_.resize(info_.joints.size(), std::numeric_limits<double>::quiet_NaN());
@@ -33,7 +37,7 @@ namespace Secser_hardware
             if (joint.command_interfaces.size() != 1)
             {
                 RCLCPP_FATAL(
-                    rclcpp::get_logger("SecserSystemHardware"),
+                    rclcpp::get_logger("MinibotSystemHardware"),
                     "Joint '%s' has %zu command interfaces found. 1 expected.", joint.name.c_str(),  joint.command_interfaces.size()
                 );
                 return hardware_interface::CallbackReturn::ERROR;
@@ -42,7 +46,7 @@ namespace Secser_hardware
             if (joint.command_interfaces[0].name != hardware_interface::HW_IF_VELOCITY)
             {
                 RCLCPP_FATAL(
-                    rclcpp::get_logger("SecserSystemHardware"),
+                    rclcpp::get_logger("MinibotSystemHardware"),
                     "Joint '%s' have %s command interfaces found. '%s' expected.", joint.name.c_str(),
                     joint.command_interfaces[0].name.c_str(), hardware_interface::HW_IF_VELOCITY
                 );
@@ -52,7 +56,7 @@ namespace Secser_hardware
             if (joint.state_interfaces.size() != 2)
             {
                 RCLCPP_FATAL(
-                    rclcpp::get_logger("SecserSystemHardware"),
+                    rclcpp::get_logger("MinibotSystemHardware"),
                     "Joint '%s' has %zu state interface. 2 expected.", joint.name.c_str(),
                     joint.state_interfaces.size()
                 );
@@ -62,7 +66,7 @@ namespace Secser_hardware
             if (joint.state_interfaces[0].name != hardware_interface::HW_IF_POSITION)
             {
                 RCLCPP_FATAL(
-                    rclcpp::get_logger("SecserSystemHardware"),
+                    rclcpp::get_logger("MinibotSystemHardware"),
                     "Joint '%s' have '%s' as first state interface. '%s' expected.", joint.name.c_str(),
                     joint.state_interfaces[0].name.c_str(), hardware_interface::HW_IF_POSITION
                 );
@@ -72,7 +76,7 @@ namespace Secser_hardware
             if (joint.state_interfaces[1].name != hardware_interface::HW_IF_VELOCITY)
             {
                 RCLCPP_FATAL(
-                    rclcpp::get_logger("SecserSystemHardware"),
+                    rclcpp::get_logger("MinibotSystemHardware"),
                     "Joint '%s' have '%s' as second state interface. '%s' expected.", joint.name.c_str(),
                     joint.state_interfaces[1].name.c_str(), hardware_interface::HW_IF_VELOCITY
                 );
@@ -87,7 +91,7 @@ namespace Secser_hardware
 
         // Get info and initialize hardware
         auto port_name = info_.hardware_parameters["port_name"];
-        RCLCPP_INFO(rclcpp::get_logger("SecserSystemHardware"), "Get port name [\033[0;92m%s\033[0m]...", port_name.c_str());
+        RCLCPP_INFO(rclcpp::get_logger("MinibotSystemHardware"), "Get port name [\033[0;92m%s\033[0m]...", port_name.c_str());
 
         try
         {
@@ -95,8 +99,8 @@ namespace Secser_hardware
         }
         catch(LibSerial::OpenFailed &e)
         {
-            RCLCPP_ERROR(rclcpp::get_logger("SecserSystemHardware"), "Exceptions: \033[0;91m%s\033[0m", e.what());
-            RCLCPP_ERROR(rclcpp::get_logger("SecserSystemHardware"), "\033[0;91mFailed to open port\033[0m [\033[0;92m%s\033[0m]...", port_name.c_str());
+            RCLCPP_ERROR(rclcpp::get_logger("MinibotSystemHardware"), "Exceptions: \033[0;91m%s\033[0m", e.what());
+            RCLCPP_ERROR(rclcpp::get_logger("MinibotSystemHardware"), "\033[0;91mFailed to open port\033[0m [\033[0;92m%s\033[0m]...", port_name.c_str());
             exit(-1);
         }
 
@@ -104,14 +108,14 @@ namespace Secser_hardware
         ser_.FlushIOBuffers();
         rclcpp::sleep_for(std::chrono::milliseconds(1000));
 
-        assert(enable_motors());
+        //assert(enable_motors());
         enable_motor_cmd_ = 1.0;
 
-        RCLCPP_INFO(rclcpp::get_logger("SecserSystemHardware"), "Successfully initialized!");
+        RCLCPP_INFO(rclcpp::get_logger("MinibotSystemHardware"), "Successfully initialized!");
         return hardware_interface::CallbackReturn::SUCCESS;
     }
 
-    std::vector<hardware_interface::StateInterface> SecserSystemHardware::export_state_interfaces()
+    std::vector<hardware_interface::StateInterface> MinibotSystemHardware::export_state_interfaces()
     {
         std::vector<hardware_interface::StateInterface> state_interfaces;
 
@@ -132,7 +136,7 @@ namespace Secser_hardware
     }
 
 
-    std::vector<hardware_interface::CommandInterface> SecserSystemHardware::export_command_interfaces()
+    std::vector<hardware_interface::CommandInterface> MinibotSystemHardware::export_command_interfaces()
     {
         std::vector<hardware_interface::CommandInterface> command_interfaces;
 
@@ -150,9 +154,9 @@ namespace Secser_hardware
     }
 
 
-    hardware_interface::CallbackReturn SecserSystemHardware::on_activate(const rclcpp_lifecycle::State& /* previous_state */)
+    hardware_interface::CallbackReturn MinibotSystemHardware::on_activate(const rclcpp_lifecycle::State& /* previous_state */)
     {
-        RCLCPP_INFO(rclcpp::get_logger("SecserSystemHardware"), "Secser hardware is activating ...please wait...");
+        RCLCPP_INFO(rclcpp::get_logger("MinibotSystemHardware"), "Minibot hardware is activating ...please wait...");
 
         for (auto i = 0u; i < hw_positions_.size(); i++)
         {
@@ -164,25 +168,25 @@ namespace Secser_hardware
             }
         }
 
-        RCLCPP_INFO(rclcpp::get_logger("SecserSystemHardware"), "Successfully activated!");
+        RCLCPP_INFO(rclcpp::get_logger("MinibotSystemHardware"), "Successfully activated!");
         return hardware_interface::CallbackReturn::SUCCESS;
     }
 
 
-    hardware_interface::CallbackReturn SecserSystemHardware::on_deactivate(const rclcpp_lifecycle::State& /* previous_state */)
+    hardware_interface::CallbackReturn MinibotSystemHardware::on_deactivate(const rclcpp_lifecycle::State& /* previous_state */)
     {
-        RCLCPP_INFO(rclcpp::get_logger("SecserSystemHardware"), "Secser hardware is deactivating ...please wait...");
+        RCLCPP_INFO(rclcpp::get_logger("MinibotSystemHardware"), "Minibot hardware is deactivating ...please wait...");
 
         ser_.FlushIOBuffers();
 
-        RCLCPP_INFO(rclcpp::get_logger("SecserSystemHardware"), "Successfully deactivated!");
+        RCLCPP_INFO(rclcpp::get_logger("MinibotSystemHardware"), "Successfully deactivated!");
         return hardware_interface::CallbackReturn::SUCCESS;
 
     }
 
-    hardware_interface::return_type SecserSystemHardware::read(const rclcpp::Time & /* time */, const rclcpp::Duration & /* period */)
+    hardware_interface::return_type MinibotSystemHardware::read(const rclcpp::Time & /* time */, const rclcpp::Duration & /* period */)
     {
-        RCLCPP_DEBUG(rclcpp::get_logger("SecserSystemHardware"), "READ");
+        RCLCPP_DEBUG(rclcpp::get_logger("MinibotSystemHardware"), "READ");
 
         // struct timespec start, end;
         // clock_gettime(CLOCK_MONOTONIC, &start);
@@ -217,14 +221,14 @@ namespace Secser_hardware
 
         // clock_gettime(CLOCK_MONOTONIC, &end);
         // auto diff = (end.tv_sec - start.tv_sec) * 1000000000LL + (end.tv_nsec - start.tv_nsec);
-        // RCLCPP_INFO(rclcpp::get_logger("SecserSystemHardware"), "READ: %lld", diff);
+        // RCLCPP_INFO(rclcpp::get_logger("MinibotSystemHardware"), "READ: %lld", diff);
 
         return hardware_interface::return_type::OK;
     }
 
-    hardware_interface::return_type SecserSystemHardware::write(const rclcpp::Time & /* time */, const rclcpp::Duration & /* period */)
+    hardware_interface::return_type MinibotSystemHardware::write(const rclcpp::Time & /* time */, const rclcpp::Duration & /* period */)
     {
-        RCLCPP_DEBUG(rclcpp::get_logger("SecserSystemHardware"), "WRITE");
+        RCLCPP_DEBUG(rclcpp::get_logger("MinibotSystemHardware"), "WRITE");
 
         // struct timespec start, end;
         // clock_gettime(CLOCK_MONOTONIC, &start);
@@ -254,41 +258,41 @@ namespace Secser_hardware
 
         // clock_gettime(CLOCK_MONOTONIC, &end);
         // auto diff = (end.tv_sec - start.tv_sec) * 1000000000LL + (end.tv_nsec - start.tv_nsec);
-        // RCLCPP_INFO(rclcpp::get_logger("SecserSystemHardware"), "WRITE: %lld", diff);
+        // RCLCPP_INFO(rclcpp::get_logger("MinibotSystemHardware"), "WRITE: %lld", diff);
 
         return hardware_interface::return_type::OK;
     }
 
 
-    bool SecserSystemHardware::enable_motors()
+    bool MinibotSystemHardware::enable_motors()
     {
-        std::vector<uint8_t> send_buf {0xfa, 0xfe, 0x01, 0, 0x1, 0x3, 0, 0xfa, 0xfd};
+        std::vector<uint8_t> send_buf {0xfa, 0xfe, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 , 10, 0, 0xfa, 0xfd};
 
         // send_buf[3] = enable ? 1 : 0;
-        send_buf[5] = send_buf[2] + send_buf[3] + send_buf[4];
+        send_buf[13] = send_buf[2] + send_buf[3] + send_buf[4] + send_buf[5] + send_buf[6] + send_buf[7] + send_buf[8] + send_buf[9] + send_buf[10];
 
         ser_.Write(send_buf);
         ser_.DrainWriteBuffer();
 
-        std::vector<uint8_t> recv_buf(9, 0);
+        std::vector<uint8_t> recv_buf(16, 0);
         try
         {
-            ser_.Read(recv_buf, 9, 500);
+            ser_.Read(recv_buf, 16, 500);
             if(recv_buf[2] != 0x91)
             {
-                RCLCPP_ERROR(rclcpp::get_logger("SecserSystemHardware"), "Failed to enable motors... check the boards...");
+                RCLCPP_ERROR(rclcpp::get_logger("MinibotSystemHardware"), "Failed to enable motors... check the boards...");
                 return false;
             }
         }
         catch(LibSerial::ReadTimeout &e)
         {
-            RCLCPP_ERROR(rclcpp::get_logger("SecserSystemHardware"), "Exceptions: \033[91m%s\033[0m", e.what());
+            RCLCPP_ERROR(rclcpp::get_logger("MinibotSystemHardware"), "Exceptions: \033[91m%s\033[0m", e.what());
             return false;
         }
         return true;
     }
 
-    void SecserSystemHardware::send_cmd_to_controller(int16_t f_l_vel, int16_t f_r_vel, int16_t r_l_vel, int16_t r_r_vel)
+    void MinibotSystemHardware::send_cmd_to_controller(int16_t f_l_vel, int16_t f_r_vel, int16_t r_l_vel, int16_t r_r_vel)
     {
         std::vector<uint8_t> send_buf {0xfa, 0xfe, 0x2, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0xa, 0x0, 0xfa, 0xfd};
 
@@ -312,7 +316,7 @@ namespace Secser_hardware
         ser_.DrainWriteBuffer();
     }
 
-    void SecserSystemHardware::request_controller_state(int32_t &f_l_pos_enc, int32_t &f_r_pos_enc, int32_t &r_l_pos_enc, int32_t &r_r_pos_enc)
+    void MinibotSystemHardware::request_controller_state(int32_t &f_l_pos_enc, int32_t &f_r_pos_enc, int32_t &r_l_pos_enc, int32_t &r_r_pos_enc)
     {
         std::vector<uint8_t> send_buf {0xfa, 0xfe, 0x3, 0x1, 0x4, 0xfa, 0xfd};
 
@@ -322,16 +326,17 @@ namespace Secser_hardware
         std::vector<uint8_t> recv_buf(23, 0);
         try
         {
-            ser_.Read(recv_buf, 23, 100);
+            ser_.Read(recv_buf, 23, 100);11234
+
             if(recv_buf[2] != 0x93)
             {
-                RCLCPP_ERROR(rclcpp::get_logger("SecserSystemHardware"), "Failed to enable motors... check the boards...");
+                RCLCPP_ERROR(rclcpp::get_logger("MinibotSystemHardware"), "Failed to enable motors... check the boards...");
                 return;
             }
         }
         catch(LibSerial::ReadTimeout &e)
         {
-            RCLCPP_ERROR(rclcpp::get_logger("SecserSystemHardware"), "Exceptions: \033[91m%s\033[0m", e.what());
+            RCLCPP_ERROR(rclcpp::get_logger("MinibotSystemHardware"), "Exceptions: \033[91m%s\033[0m", e.what());
             return;
         }
 
@@ -343,7 +348,11 @@ namespace Secser_hardware
         
     }
 
-} // namespace Secser_hardware
+} // namespace minibot_hardware
 
 #include "pluginlib/class_list_macros.hpp"
+<<<<<<< HEAD:secser_hardware_interface/src/secser_system.cpp
 PLUGINLIB_EXPORT_CLASS(Secser_hardware::SecserSystemHardware, hardware_interface::SystemInterface)
+=======
+PLUGINLIB_EXPORT_CLASS(minibot_hardware::MinibotSystemHardware, hardware_interface::SystemInterface)
+>>>>>>> f6e1d0381b1daba642f72080e69063100d362de3:minibot_hardware_interface/src/minibot_system.cpp
