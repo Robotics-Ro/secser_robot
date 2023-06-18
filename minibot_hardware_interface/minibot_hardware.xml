@@ -3,7 +3,7 @@
             type="minibot_hardware::MinibotSystemHardware"
             base_class_type="hardware_interface::SystemInterface">
         <description>
-            The hardware_interface for 2nd Generation Serving Robot on ros2_control.
+            The hardware_interface for Minibot on ros2_control.
         </description>
     </class>
 </library>

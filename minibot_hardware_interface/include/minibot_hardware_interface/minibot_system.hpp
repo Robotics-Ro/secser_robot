@@ -50,20 +50,17 @@ class MinibotSystemHardware : public hardware_interface::SystemInterface
         hardware_interface::return_type write(const rclcpp::Time & time, const rclcpp::Duration & period) override;
 
     private:
-        bool enable_motors();
-        void send_cmd_to_controller(int16_t f_l_vel, int16_t f_r_vel, int16_t r_l_vel, int16_t r_r_vel);
-        void request_controller_state(int32_t &f_l_vel_enc, int32_t &f_r_vel_enc, int32_t &r_l_vel_enc, int32_t &r_r_vel_enc);
+        bool enable_motors(bool enable);
+        void send_cmd_to_controller(uint8_t enable, int16_t l_vel, int16_t r_vel, uint8_t l_lamp, uint8_t r_lamp);
+        void request_controller_state(uint8_t &enabled, int32_t &l_vel_enc, int32_t &r_vel_enc, uint8_t &l_lamp_val, uint8_t &r_lamp_val, uint16_t &range_sensor_val);
 
     private:
-        std::vector<double> hw_commands_;  // 메카넘휠 코드 std::vector<double> velocity_commands_; 부분
-        std::vector<double> hw_positions_;  // 메카넘휠 코드 std::vector<double> position_states_; 부분
-        std::vector<double> hw_velocities_; // 메카넘휠 코드  std::vector<double> velocity_states_; 부분
-        std::vector<double> hw_commands_saved_;  
-        
-        int32_t f_l_last_enc_;
-        int32_t f_r_last_enc_;
-        int32_t r_l_last_enc_;
-        int32_t r_r_last_enc_;
+        std::vector<double> hw_commands_;
+        std::vector<double> hw_positions_;
+        std::vector<double> hw_velocities_;
+
+        int32_t l_last_enc_;
+        int32_t r_last_enc_;
 
         LibSerial::SerialPort ser_;
 

@@ -1,11 +1,10 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>secser_hardware_interface</name>
+  <name>minibot_hardware_interface</name>
   <version>0.0.0</version>
-  <description>secser_hardware_interface</description>
+  <description>minibot_hardware_interface</description>
   <maintainer email="byeongkyu@gmail.com">byeongkyu</maintainer>
-  <maintainer email="thro@konkuk.ac.kr">Tae Hyung Ro</maintainer>
   <license>MIT</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
