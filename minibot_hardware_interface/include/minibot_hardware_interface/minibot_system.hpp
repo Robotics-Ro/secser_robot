@@ -62,14 +62,14 @@ class MinibotSystemHardware : public hardware_interface::SystemInterface
         void request_controller_state(int32_t &f_l_vel_enc, int32_t &f_r_vel_enc, int32_t &r_l_vel_enc, int32_t &r_r_vel_enc);
 
     private:
-        std::vector<double> hw_commands_;
-        std::vector<double> hw_positions_;
-        std::vector<double> hw_velocities_;
-
-
         // plus status
         // std::vector<double> position_states_;
         // std::vector<double> velocity_states_;
+        std::vector<double> hw_commands_;  // 메카넘휠 코드 std::vector<double> velocity_commands_; 부분
+        std::vector<double> hw_positions_;  // 메카넘휠 코드 std::vector<double> position_states_; 부분
+        std::vector<double> hw_velocities_; // 메카넘휠 코드  std::vector<double> velocity_states_; 부분
+        std::vector<double> hw_commands_saved_;  
+        
 
         int32_t f_l_last_enc_;
         int32_t f_r_last_enc_;

@@ -10,11 +10,8 @@
 #include "hardware_interface/types/hardware_interface_type_values.hpp"
 #include "rclcpp/rclcpp.hpp"
 
-<<<<<<< HEAD:secser_hardware_interface/src/secser_system.cpp
-namespace Secser_hardware
-=======
+
 namespace minibot_hardware
->>>>>>> f6e1d0381b1daba642f72080e69063100d362de3:minibot_hardware_interface/src/minibot_system.cpp
 {
     hardware_interface::CallbackReturn MinibotSystemHardware::on_init(const hardware_interface::HardwareInfo & info)
     {
@@ -31,6 +28,7 @@ namespace minibot_hardware
         hw_positions_.resize(info_.joints.size(), std::numeric_limits<double>::quiet_NaN());
         hw_velocities_.resize(info_.joints.size(), std::numeric_limits<double>::quiet_NaN());
         hw_commands_.resize(info_.joints.size(), std::numeric_limits<double>::quiet_NaN());
+        hw_commands_saved_.resize(info_.joints.size(), std::numeric_limits<double>::quiet_NaN());
 
         for (const hardware_interface::ComponentInfo & joint : info_.joints)
         {
@@ -108,7 +106,10 @@ namespace minibot_hardware
         ser_.FlushIOBuffers();
         rclcpp::sleep_for(std::chrono::milliseconds(1000));
 
-        //assert(enable_motors());
+
+
+        // assert(enable_motors());
+
         enable_motor_cmd_ = 1.0;
 
         RCLCPP_INFO(rclcpp::get_logger("MinibotSystemHardware"), "Successfully initialized!");
@@ -121,10 +122,17 @@ namespace minibot_hardware
 
         for (auto i = 0u; i < info_.joints.size(); i++)
         {
+            RCLCPP_INFO(rclcpp::get_logger("MinibotSystemHardware"), "Adding position state interface: %s", info_.joints[i].name.c_str());
             state_interfaces.emplace_back(
-                hardware_interface::StateInterface(info_.joints[i].name, hardware_interface::HW_IF_POSITION, &hw_positions_[i]));
+            
+            hardware_interface::StateInterface(info_.joints[i].name, hardware_interface::HW_IF_POSITION, &hw_positions_[i]));
+        }
+
+        for (auto i = 0u; i < info_.joints.size(); i++)
+        {
+            RCLCPP_INFO(rclcpp::get_logger("MinibotSystemHardware"), "Adding velocity state interface: %s", info_.joints[i].name.c_str());
             state_interfaces.emplace_back(
-                hardware_interface::StateInterface(info_.joints[i].name, hardware_interface::HW_IF_VELOCITY, &hw_velocities_[i]));
+            hardware_interface::StateInterface(info_.joints[i].name, hardware_interface::HW_IF_VELOCITY, &hw_velocities_[i]));
         }
 
         // state_interfaces.emplace_back(hardware_interface::StateInterface("gpio", "motor_enabled", &enable_motor_state_));
@@ -142,6 +150,7 @@ namespace minibot_hardware
 
         for (auto i = 0u; i < info_.joints.size(); i++)
         {
+               RCLCPP_INFO(rclcpp::get_logger("MinibotSystemHardware"), "Adding velocity command interface: %s", info_.joints[i].name.c_str());
             command_interfaces.emplace_back(
                 hardware_interface::CommandInterface(info_.joints[i].name, hardware_interface::HW_IF_VELOCITY, &hw_commands_[i]));
         }
@@ -162,10 +171,11 @@ namespace minibot_hardware
         {
             if (std::isnan(hw_positions_[i]))
             {
-                hw_positions_[i] = 0;
-                hw_velocities_[i] = 0;
-                hw_commands_[i] = 0;
+                hw_positions_[i] = 0.0f;
+                hw_velocities_[i] = 0.0f;
+                hw_commands_[i] = 0.0f;
             }
+            hw_commands_saved_[i] = hw_commands_[i];
         }
 
         RCLCPP_INFO(rclcpp::get_logger("MinibotSystemHardware"), "Successfully activated!");
@@ -326,7 +336,7 @@ namespace minibot_hardware
         std::vector<uint8_t> recv_buf(23, 0);
         try
         {
-            ser_.Read(recv_buf, 23, 100);11234
+            ser_.Read(recv_buf, 23, 100);
 
             if(recv_buf[2] != 0x93)
             {
@@ -351,8 +361,13 @@ namespace minibot_hardware
 } // namespace minibot_hardware
 
 #include "pluginlib/class_list_macros.hpp"
-<<<<<<< HEAD:secser_hardware_interface/src/secser_system.cpp
-PLUGINLIB_EXPORT_CLASS(Secser_hardware::SecserSystemHardware, hardware_interface::SystemInterface)
-=======
 PLUGINLIB_EXPORT_CLASS(minibot_hardware::MinibotSystemHardware, hardware_interface::SystemInterface)
->>>>>>> f6e1d0381b1daba642f72080e69063100d362de3:minibot_hardware_interface/src/minibot_system.cpp
+
+
+
+
+
+
+
+
+

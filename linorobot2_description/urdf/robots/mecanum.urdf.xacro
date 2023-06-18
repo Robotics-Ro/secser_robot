@@ -5,20 +5,9 @@
   <xacro:include filename="$(find linorobot2_description)/urdf/mech/base.urdf.xacro" />
   <xacro:include filename="$(find linorobot2_description)/urdf/mech/mecanum_wheel.urdf.xacro" />
   <xacro:include filename="$(find linorobot2_description)/urdf/sensors/imu.urdf.xacro" />
-  <xacro:include filename="$(find linorobot2_description)/urdf/sensors/generic_laser.urdf.xacro" />
+  <!-- <xacro:include filename="$(find linorobot2_description)/urdf/sensors/generic_laser.urdf.xacro" /> -->
   <xacro:include filename="$(find linorobot2_description)/urdf/sensors/depth_sensor.urdf.xacro" />
   <xacro:include filename="$(find linorobot2_description)/urdf/controllers/omni_drive.urdf.xacro" />
-  <xacro:include filename="$(find linorobot2_description)/urdf/controllers/mecanum_ros2_control.urdf.xacro"/>
-
-
-
-   <!-- insert robot base -->
-    <!-- <xacro:property name="prefix" value=""/> -->
-    <xacro:insert_ros2_control_mecanum is_sim="$(arg is_sim)" robot_port_name="$(arg robot_port_name)" robot_baudrate="$(arg robot_baudrate)"/>
-
-    <!-- <xacro:if value="$(arg is_sim)">
-        <xacro:insert_gazebo prefix="$(arg prefix)"/>
-    </xacro:if>  -->
 
   <xacro:base 
     length="${base_length}" 
@@ -30,7 +19,7 @@
 />
 
   <xacro:mecanum_wheel 
-    side="front_left"
+    side="fl"
     radius="${wheel_radius}" 
     width="${wheel_width}" 
     pos_x="${wheel_pos_x}" 
@@ -40,7 +29,7 @@
   />
 
   <xacro:mecanum_wheel 
-    side="front_right"
+    side="fr"
     radius="${wheel_radius}" 
     width="${wheel_width}" 
     pos_x="${wheel_pos_x}" 
@@ -49,7 +38,7 @@
     mass="${wheel_mass}"
   />
   <xacro:mecanum_wheel 
-    side="rear_left"
+    side="rl"
     radius="${wheel_radius}" 
     width="${wheel_width}" 
     pos_x="${-wheel_pos_x}" 
@@ -59,7 +48,7 @@
   />
 
   <xacro:mecanum_wheel 
-    side="rear_right"
+    side="rr"
     radius="${wheel_radius}" 
     width="${wheel_width}" 
     pos_x="${-wheel_pos_x}" 
@@ -77,6 +66,28 @@
   <xacro:depth_sensor>
     <xacro:insert_block name="depth_sensor_pose" />
   </xacro:depth_sensor>
+
+  <ros2_control name="secser_system" type="system">
+      
+    <xacro:unless value="$(arg is_sim)">
+        <hardware>
+            <plugin>minibot_hardware/MinibotSystemHardware</plugin>
+            <param name="port_name">/dev/ttySTM32</param>
+            <param name="baudrate">1000000</param>
+        </hardware>
+    </xacro:unless>
+
+    <gpio name="gpio">
+        <!-- <command_interface name="set_enable_motor"/> -->
+        <state_interface name="motor_enabled"/>
+
+        <command_interface name="set_l_lamp_command"/>
+        <command_interface name="set_r_lamp_command"/>
+        <state_interface name="l_lamp_state"/>
+        <state_interface name="r_lamp_state"/>
+        <state_interface name="range_sensor_state"/>
+    </gpio>
+</ros2_control>
 
   
    <!-- <xacro:insert_ros2_control_mecanum prefix="$(arg prefix)" is_sim="$(arg is_sim)" robot_port_name="$(arg robot_port_name)" robot_baudrate="$(arg robot_baudrate)"/> -->

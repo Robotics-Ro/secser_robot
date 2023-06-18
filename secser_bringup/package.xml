@@ -16,6 +16,8 @@
   <exec_depend>joy_linux</exec_depend>
   <exec_depend>teleop_twist_joy</exec_depend>
   <exec_depend>teleop_twist_keyboard</exec_depend>
+  <exec_depend>controller_manager</exec_depend>
+  <exec_depend>robot_state_publisher</exec_depend>
   <!-- <exec_depend>micro_ros_agent</exec_depend> --> 
   <exec_depend>depthimage_to_laserscan</exec_depend>
   <export>
