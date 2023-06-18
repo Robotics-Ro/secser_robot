@@ -19,14 +19,14 @@ namespace minibot_controllers
 {
     enum CommandInterfaces
     {
-        ENABLE_MOTOR_CMD = 0u,
+        ENABLE_MOTOR_CMD = 1,
         LEFT_LAMP_CMD = 1,
         RIGHT_LAMP_CMD = 2,
     };
 
     enum StateInterfaces
     {
-        ENABLE_MOTOR_STATE = 0u,
+        ENABLE_MOTOR_STATE = 1,
         LEFT_LAMP_STATE = 1,
         RIGHT_LAMP_STATE = 2,
         RANGE_SENSOR_STATE = 3,

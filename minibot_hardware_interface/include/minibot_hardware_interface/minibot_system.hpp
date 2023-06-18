@@ -50,7 +50,7 @@ class MinibotSystemHardware : public hardware_interface::SystemInterface
         hardware_interface::return_type write(const rclcpp::Time & time, const rclcpp::Duration & period) override;
 
     private:
-        bool enable_motors();
+        bool enable_motors(bool enable);
         void send_cmd_to_controller(int16_t f_l_vel, int16_t f_r_vel, int16_t r_l_vel, int16_t r_r_vel);
         void request_controller_state(int32_t &f_l_vel_enc, int32_t &f_r_vel_enc, int32_t &r_l_vel_enc, int32_t &r_r_vel_enc);
 
