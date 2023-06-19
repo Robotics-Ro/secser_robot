@@ -87,25 +87,7 @@ def generate_launch_description():
                                 namespace='/',
                                 )
 
-    return LaunchDescription([
-        RegisterEventHandler(
-            event_handler=OnProcessStart(
-                target_action=control_node,
-                on_start=[load_joint_state_broadcaster],
-            )
-        ),
-        RegisterEventHandler(
-            event_handler=OnProcessExit(
-                target_action=load_joint_state_broadcaster,
-                on_exit=[load_base_controller],
-            )
-        ),
-        RegisterEventHandler(
-            event_handler=OnProcessExit(
-                target_action=load_base_controller,
-                on_exit=[load_minibot_io_controller],
-            )
-        ),
+    return LaunchDescription([  
         prefix,
         lidar_model,
         lidar_port_name,
