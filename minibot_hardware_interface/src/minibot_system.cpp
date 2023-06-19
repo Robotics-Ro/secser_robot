@@ -277,16 +277,9 @@ namespace minibot_hardware
 
     bool MinibotSystemHardware::enable_motors(bool enable)
     {
-        std::vector<uint8_t> send_buf {0xfa, 0xfe, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 0,0xfa, 0xfd};
-
-        //send_buf[3] = enable ? 1 : 0;
-        uint16_t sum = 0;
-	for(int i = 0; i < 11; i++)
-	{
-	   sum += send_buf[2 + i];
-	}
-	send_buf[13] = (uint8_t)sum;
-
+        std::vector<uint8_t> send_buf {0xfa, 0xfe, 0x01, 0, 0x1, 0x3, 0x05, 0xfa, 0xfd};
+        // send_buf[3] = enable ? 1 : 0;
+  
         ser_.Write(send_buf);
         ser_.DrainWriteBuffer();
 
@@ -343,7 +336,7 @@ namespace minibot_hardware
         std::vector<uint8_t> recv_buf(23, 0);
         try
         {
-            ser_.Read(recv_buf, 23, 100);
+            ser_.Read(recv_buf, 23, 1000);
             if(recv_buf[2] != 0x93)
             {
                 RCLCPP_ERROR(rclcpp::get_logger("MinibotSystemHardware"), "Failed to enable motors... check the boards...");
