@@ -3,7 +3,7 @@ controller_manager:
     update_rate: 25  # Hz
 
     joint_state_controller:
-      type: joint_state_controller/JointStateController
+      type: joint_state_broadcaster/JointStateBroadcaster
 
     mecanumbot_drive_controller:
       type: mecanumbot_controller/MecanumbotDriveController

@@ -55,6 +55,16 @@ def generate_launch_description():
         on_exit=Shutdown(),
     )
 
+    # control_node = Node(
+    #     package='mecanumbot_control',
+    #         executable='mecanumbot_control_node',
+    #         output='screen',
+    #         parameters=[
+    #             {'robot_description': robot_description},
+    #             robot_controllers
+    #         ]
+    # )
+
     upload_robot = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([
             get_package_share_directory('minibot_description'),
@@ -65,6 +75,18 @@ def generate_launch_description():
             'prefix': LaunchConfiguration('prefix'),
             'lidar_model': LaunchConfiguration('lidar_model'),
         }.items()
+    )
+
+    load_joint_state_broadcaster = ExecuteProcess(
+        cmd=['ros2', 'control', 'load_controller', '--set-state', 'active',
+                'joint_state_controller'],
+        output='screen'
+    )
+
+    load_base_controller = ExecuteProcess(
+        cmd=['ros2', 'control', 'load_controller', '--set-state', 'active',
+                'mecanumbot_drive_controller'],
+        output='screen'
     )
 
     load_minibot_io_controller = ExecuteProcess(
@@ -88,6 +110,24 @@ def generate_launch_description():
                                 )
 
     return LaunchDescription([  
+        RegisterEventHandler(
+            event_handler=OnProcessStart(
+                target_action=control_node,
+                on_start=[load_joint_state_broadcaster],
+            )
+        ),
+        RegisterEventHandler(
+            event_handler=OnProcessExit(
+                target_action=load_joint_state_broadcaster,
+                on_exit=[load_base_controller],
+            )
+        ),
+        RegisterEventHandler(
+            event_handler=OnProcessExit(
+                target_action=load_base_controller,
+                on_exit=[load_minibot_io_controller],
+            )
+        ),
         prefix,
         lidar_model,
         lidar_port_name,
