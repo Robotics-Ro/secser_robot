@@ -23,8 +23,7 @@ def generate_launch_description():
         'xacro ',
         PathJoinSubstitution([
             FindPackageShare('minibot_description'),
-            'urdf',
-            'robot.urdf.xacro',
+            'urdf/robot_test.urdf.xacro',
         ]),
         ' is_sim:=', 'false',
         ' lidar_model:=', LaunchConfiguration('lidar_model'),
@@ -35,13 +34,19 @@ def generate_launch_description():
     ])
     robot_description = {"robot_description": robot_description_content}
 
+    # robot_controllers = PathJoinSubstitution([
+    #         FindPackageShare('minibot_description'),
+    #         "config",
+    #         "robot_controller_config.yaml"
+    #     ]
+    # )
+
     robot_controllers = PathJoinSubstitution([
-            FindPackageShare('minibot_description'),
+            FindPackageShare('minibot_bringup'),
             "config",
-            "robot_controller_config.yaml"
+            "minibot_controllers.yaml"
         ]
     )
-
     control_node = Node(
         package="controller_manager",
         executable="ros2_control_node",
@@ -78,18 +83,29 @@ def generate_launch_description():
         }.items()
     )
 
+    # load_joint_state_broadcaster = ExecuteProcess(
+    #     cmd=['ros2', 'control', 'load_controller', '--set-state', 'active',
+    #             'joint_state_controller'],
+    #     output='screen'
+    # )
+
     load_joint_state_broadcaster = ExecuteProcess(
         cmd=['ros2', 'control', 'load_controller', '--set-state', 'active',
-                'joint_state_controller'],
+                'joint_state_broadcaster'],
         output='screen'
     )
+
+    # load_base_controller = ExecuteProcess(
+    #     cmd=['ros2', 'control', 'load_controller', '--set-state', 'active',
+    #             'mecanumbot_drive_controller'],
+    #     output='screen'
+    # )
 
     load_base_controller = ExecuteProcess(
         cmd=['ros2', 'control', 'load_controller', '--set-state', 'active',
-                'mecanumbot_drive_controller'],
+                'base_controller'],
         output='screen'
     )
-
     
     load_minibot_io_controller = ExecuteProcess(
         cmd=['ros2', 'control', 'load_controller', '--set-state', 'active',
